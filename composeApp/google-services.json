@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "792351484406",
+    "project_id": "quizhero-467415",
+    "storage_bucket": "quizhero-467415.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792351484406:android:9052a83395b0ee014b3fd7",
+        "android_client_info": {
+          "package_name": "org.apie.lernhero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792351484406-m4f78kjonkhhkhmpi3qlgqhrs83fq9lq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.apie.lernhero",
+            "certificate_hash": "9c900119d14eb70c89a9510d4722e6460b33c28a"
+          }
+        },
+        {
+          "client_id": "792351484406-gnr1qsv8m5h449av9k0p7pf1140qkvij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0nYU5afptIsLfv7Iwoquq-b6bQ0tdApA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792351484406-gnr1qsv8m5h449av9k0p7pf1140qkvij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
