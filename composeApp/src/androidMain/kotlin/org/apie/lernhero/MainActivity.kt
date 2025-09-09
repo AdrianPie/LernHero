@@ -14,8 +14,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         installSplashScreen()
-
-
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT,
@@ -26,10 +24,11 @@ class MainActivity : ComponentActivity() {
                 Color.TRANSPARENT
             )
         )
+
         super.onCreate(savedInstanceState)
 
         setContent {
-            MyApp()
+            App()
         }
     }
 }
@@ -37,5 +36,5 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    MyApp()
+    App()
 }

@@ -8,7 +8,7 @@ import com.lernhero.auth.AuthScreen
 
 @Composable
 fun SetupNavGraph() {
-    AuthScreen()
+
     val navController = rememberNavController()
     NavHost(
         navController = navController,

@@ -28,10 +28,12 @@ import com.lernhero.shared.TextPrimary
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
 import lernhero.feature.auth.generated.resources.Res
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
 @Composable
 fun AuthScreen() {
+    val viewModel = koinViewModel<AuthViewModel>()
     val messageBarState = rememberMessageBarState()
     var loadingState by remember { mutableStateOf(false) }
 
@@ -75,7 +77,16 @@ fun AuthScreen() {
                     linkAccount = false,
                     onResult = { result ->
                         result.onSuccess { user ->
-                            messageBarState.addSuccess("Signed in successfully")
+                            viewModel.createPlayer(
+                                user = user,
+                                onSuccess = {
+                                    messageBarState.addSuccess("Signed in successfully")
+                                },
+                                onFailure = { error ->
+                                    messageBarState.addError("Player creation failed: $error")
+                                }
+                            )
+
                             loadingState = false
                         }.onFailure { error ->
                             if (error.message?.contains("a network error") == true) {
@@ -103,5 +114,4 @@ fun AuthScreen() {
 
         }
     }
-
-    }
+}

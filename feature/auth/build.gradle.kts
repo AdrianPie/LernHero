@@ -48,9 +48,12 @@ kotlin {
             implementation(libs.messagebar.kmp)
 
             implementation(libs.auth.kmp)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.auth.firebase.kmp)
 
             implementation(project(path = ":shared" ))
+            implementation(project(path = ":data" ))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

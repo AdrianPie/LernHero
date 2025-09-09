@@ -37,7 +37,6 @@ class PlayerRepositoryImpl: PlayerRepository {
                 onFailure("User is not available.")
             }
         } catch (e: Exception) {
-
             onFailure("Error while creating a Customer: ${e.message}")
         }
 

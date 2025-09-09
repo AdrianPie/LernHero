@@ -39,6 +39,7 @@ fun App() {
             modifier = Modifier.fillMaxSize(),
             visible = appReady
         ) {
+
             SetupNavGraph()
         }
 
