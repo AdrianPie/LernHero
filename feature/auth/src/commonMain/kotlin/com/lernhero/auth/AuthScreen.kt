@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,13 +27,18 @@ import com.lernhero.shared.Resources
 import com.lernhero.shared.Surface
 import com.lernhero.shared.TextPrimary
 import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import lernhero.feature.auth.generated.resources.Res
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import rememberMessageBarState
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(
+    navigateToHome: () -> Unit
+) {
+    val scope = rememberCoroutineScope()
     val viewModel = koinViewModel<AuthViewModel>()
     val messageBarState = rememberMessageBarState()
     var loadingState by remember { mutableStateOf(false) }
@@ -80,7 +86,12 @@ fun AuthScreen() {
                             viewModel.createPlayer(
                                 user = user,
                                 onSuccess = {
-                                    messageBarState.addSuccess("Signed in successfully")
+                                    scope.launch {
+                                        messageBarState.addSuccess("Signed in successfully")
+                                        delay(2000)
+                                        navigateToHome()
+                                    }
+
                                 },
                                 onFailure = { error ->
                                     messageBarState.addError("Player creation failed: $error")
