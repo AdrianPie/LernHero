@@ -4,9 +4,14 @@ import com.lernhero.data.domain.PlayerRepository
 import com.lernhero.shared.domain.Player
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
+import dev.gitlive.firebase.auth.auth
 import dev.gitlive.firebase.firestore.firestore
 
 class PlayerRepositoryImpl: PlayerRepository {
+    override fun getUserId(): String? {
+        return Firebase.auth.currentUser?.uid
+    }
+
     override suspend fun createPlayer(
         user: FirebaseUser?,
         onSuccess: () -> Unit,

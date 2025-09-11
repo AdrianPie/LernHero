@@ -13,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.lernhero.data.domain.PlayerRepository
+import com.lernhero.shared.Screen
 import com.lernhero.navigation.SetupNavGraph
 import com.lernhero.shared.Constans
 import com.mmk.kmpauth.google.GoogleAuthCredentials
@@ -22,13 +24,24 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import lernhero.composeapp.generated.resources.Res
 import lernhero.composeapp.generated.resources.compose_multiplatform
+import org.koin.compose.koinInject
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-
+        val playerRepository = koinInject<PlayerRepository>()
         var appReady by remember { mutableStateOf(false) }
+        val userAuthenticated = remember { playerRepository.getUserId() != null }
+        var startDestination by remember {
+            mutableStateOf(
+                if (userAuthenticated) {
+                    Screen.HomeGraph
+                } else {
+                    Screen.Auth
+                }
+            )
+        }
         LaunchedEffect(Unit){
             GoogleAuthProvider.create(
                 credentials = GoogleAuthCredentials(serverId = Constans.WEB_CLIENT_ID)
@@ -40,7 +53,9 @@ fun App() {
             visible = appReady
         ) {
 
-            SetupNavGraph()
+            SetupNavGraph(
+                startDestination = startDestination
+            )
         }
 
 
