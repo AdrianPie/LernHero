@@ -13,17 +13,17 @@ enum class BottomBarDestination(
         icon = Resources.Icon.Home,
         title = "Home",
         route = Screen.Home
-    ),
-    Shop(
-        icon = Resources.Icon.Home,
-        title = "Shop",
-        route = Screen.Shop
+
     ),
     Fight(
-        icon = Resources.Icon.Home,
+        icon = Resources.Icon.swords,
         title = "Fight",
         route = Screen.FightScreen
     ),
 
-
+    Shop(
+        icon = Resources.Icon.ShoppingCart,
+        title = "Shop",
+        route = Screen.Shop
+    )
 }

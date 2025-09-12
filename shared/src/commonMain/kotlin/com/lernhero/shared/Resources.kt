@@ -27,6 +27,7 @@ import lernhero.shared.generated.resources.search
 import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
+import lernhero.shared.generated.resources.swords_24px
 import lernhero.shared.generated.resources.unlock
 import lernhero.shared.generated.resources.usa
 import lernhero.shared.generated.resources.user
@@ -36,7 +37,6 @@ import lernhero.shared.generated.resources.weight
 
 object Resources {
     object Icon {
-
         val Plus = Res.drawable.plus
         val Minus = Res.drawable.minus
         val SignIn = Res.drawable.log_in
@@ -60,6 +60,7 @@ object Resources {
         val Delete = Res.drawable.delete
         val Warning = Res.drawable.warning
         val Weight = Res.drawable.weight
+        val swords = Res.drawable.swords_24px
     }
     object Image {
         val ShoppingCart = Res.drawable.shopping_cart_image
