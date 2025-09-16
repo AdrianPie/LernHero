@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,9 +29,11 @@ import com.lernhero.shared.Surface
 import com.lernhero.shared.SurfaceLighter
 import com.lernhero.shared.TextPrimary
 
+
 @Composable
 fun GameScreen(
     modifier: Modifier = Modifier,
+
     gameMap: GameMap = DefaultGameMap,
     startNodeId: String? = null,
     onNodeSelected: (GameMapNode) -> Unit = {},
@@ -48,11 +51,15 @@ fun GameScreen(
         gameMap = gameMap,
         startNodeId = resolvedStartNodeId,
         onNodeSelected = onNodeSelected,
+
+
+
     )
 
     Column(
         modifier = modifier
             .fillMaxSize()
+
             .background(Surface)
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -108,6 +115,7 @@ fun GameScreen(
             fontFamily = FontSecond(),
             fontSize = FontSize.EXTRA_REGULAR,
             color = TextPrimary,
-        )
+        )        
+
     }
 }
