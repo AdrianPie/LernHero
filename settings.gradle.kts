@@ -29,8 +29,12 @@ dependencyResolutionManagement {
 }
 include(":data")
 include(":di")
+include(":feature:game")
+include(":game")
 
+include(":game")
 include(":feature:home")
+include(":game")
 include(":feature:auth")
 include(":navigation")
 include(":composeApp")

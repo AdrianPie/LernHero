@@ -26,6 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.lernhero.GameScreen
 import com.lernhero.home.component.NavBottomBar
 import com.lernhero.home.domain.BottomBarDestination
 import com.lernhero.shared.FontFirst
@@ -102,7 +103,9 @@ fun HomeGraphScreen() {
                 startDestination = Screen.Home
             ) {
                 composable<Screen.Home> {  }
-                composable<Screen.FightScreen> {  }
+                composable<Screen.FightScreen> {
+                    GameScreen()
+                }
                 composable<Screen.Shop> {  }
 
             }

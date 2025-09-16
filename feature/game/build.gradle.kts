@@ -23,7 +23,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "home"
+            baseName = "game"
             isStatic = true
         }
     }
@@ -57,7 +57,6 @@ kotlin {
 
             implementation(project(path = ":shared" ))
             implementation(project(path = ":data" ))
-            implementation(project(path = ":feature:game" ))
 
         }
         commonTest.dependencies {
@@ -67,7 +66,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.apie.home"
+    namespace = "org.apie.game"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
