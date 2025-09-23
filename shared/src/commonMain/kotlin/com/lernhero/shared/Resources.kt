@@ -27,6 +27,9 @@ import lernhero.shared.generated.resources.search
 import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
+import lernhero.shared.generated.resources.spire2
+import lernhero.shared.generated.resources.sprite
+import lernhero.shared.generated.resources.sprite3
 import lernhero.shared.generated.resources.swords_24px
 import lernhero.shared.generated.resources.unlock
 import lernhero.shared.generated.resources.usa
@@ -74,5 +77,10 @@ object Resources {
         val India = Res.drawable.india
         val Usa = Res.drawable.usa
         val Serbia = Res.drawable.serbia
+    }
+    object Sprite{
+        val knightIdle = Res.drawable.sprite
+        val knightIdle3 = Res.drawable.sprite3
+        val knightIdle2 = Res.drawable.spire2
     }
 }
