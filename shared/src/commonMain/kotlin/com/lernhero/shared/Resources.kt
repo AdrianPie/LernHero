@@ -27,6 +27,7 @@ import lernhero.shared.generated.resources.search
 import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
+import lernhero.shared.generated.resources.fire_sprite
 import lernhero.shared.generated.resources.spire2
 import lernhero.shared.generated.resources.sprite
 import lernhero.shared.generated.resources.sprite3
@@ -82,5 +83,6 @@ object Resources {
         val knightIdle = Res.drawable.sprite
         val knightIdle3 = Res.drawable.sprite3
         val knightIdle2 = Res.drawable.spire2
+        val effectSprite = Res.drawable.fire_sprite
     }
 }
