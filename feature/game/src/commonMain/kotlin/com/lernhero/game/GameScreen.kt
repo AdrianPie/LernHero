@@ -27,12 +27,11 @@ fun GameScreen(
         var scale by remember { mutableStateOf(1f) }
         Character(
             targetScale = scale,
-            sprite = Resources.Sprite.knightIdle3,
-            effectSprite = Resources.Sprite.effectSprite,
+            spriteCharacter = Resources.Sprite.knight,
+            spriteEffect = Resources.Sprite.fireEffect,
             onClickPlus = { scale += 0.1f },
             onClickMinus = { scale -= 0.1f },
             onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
-
         )
 
 

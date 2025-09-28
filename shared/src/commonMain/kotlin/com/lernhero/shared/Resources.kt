@@ -1,5 +1,8 @@
 package com.lernhero.shared
 
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import lernhero.shared.generated.resources.Res
 import lernhero.shared.generated.resources.back_arrow
 import lernhero.shared.generated.resources.book
@@ -28,8 +31,6 @@ import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
 import lernhero.shared.generated.resources.fire_sprite
-import lernhero.shared.generated.resources.spire2
-import lernhero.shared.generated.resources.sprite
 import lernhero.shared.generated.resources.sprite3
 import lernhero.shared.generated.resources.swords_24px
 import lernhero.shared.generated.resources.unlock
@@ -38,6 +39,7 @@ import lernhero.shared.generated.resources.user
 import lernhero.shared.generated.resources.vertical_menu
 import lernhero.shared.generated.resources.warning
 import lernhero.shared.generated.resources.weight
+import org.jetbrains.compose.resources.DrawableResource
 
 object Resources {
     object Icon {
@@ -80,9 +82,49 @@ object Resources {
         val Serbia = Res.drawable.serbia
     }
     object Sprite{
-        val knightIdle = Res.drawable.sprite
-        val knightIdle3 = Res.drawable.sprite3
-        val knightIdle2 = Res.drawable.spire2
-        val effectSprite = Res.drawable.fire_sprite
+        val knight: SpriteAsset = SpriteAsset(
+            drawable = Res.drawable.sprite3,
+            frameWidth = 587,
+            frameHeight = 707,
+            totalFrames = 9,
+            framesPerRow = 3,
+            animationSpeed = 100,
+            localWidth = 100.dp
+        )
+        val fireEffect: SpriteAsset = SpriteAsset(
+            drawable = Res.drawable.fire_sprite,
+            frameWidth = 128,
+            frameHeight = 128,
+            totalFrames = 21,
+            framesPerRow = 7,
+            animationSpeed = 100,
+            localWidth = 70.dp
+        )
+    }
+}
+data class SpriteAsset(
+    val drawable: DrawableResource,
+    val frameWidth: Int,
+    val frameHeight: Int,
+    val totalFrames: Int,
+    val framesPerRow: Int,
+    val animationSpeed: Long,
+    val localWidth: Dp,
+){
+    fun scaleWidthFactor(density: Density): Float {
+        val frameWidthDp = with(density) { frameWidth.toDp() }
+        return localWidth / frameWidthDp
+    }
+    val ratio: Float
+        get() = frameHeight.toFloat() / frameWidth.toFloat()
+
+    fun scaleFactorRelativeTo(
+        other: SpriteAsset,
+        factor: Float,
+        density: Density
+    ): Float {
+        val frameWidthDp = with(density) { frameWidth.toDp() }
+        val otherLogical = other.localWidth * factor
+        return otherLogical / frameWidthDp
     }
 }
