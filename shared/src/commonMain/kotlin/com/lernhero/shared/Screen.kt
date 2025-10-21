@@ -13,5 +13,7 @@ sealed class Screen {
     @Serializable
     data object FightScreen : Screen()
     @Serializable
+    data object GameScreen : Screen()
+    @Serializable
     data object Shop : Screen()
 }

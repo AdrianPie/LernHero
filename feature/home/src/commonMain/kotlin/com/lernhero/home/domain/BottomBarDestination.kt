@@ -15,10 +15,10 @@ enum class BottomBarDestination(
         route = Screen.Home
 
     ),
-    Fight(
+    Game(
         icon = Resources.Icon.swords,
-        title = "Fight",
-        route = Screen.FightScreen
+        title = "Game",
+        route = Screen.GameScreen
     ),
 
     Shop(

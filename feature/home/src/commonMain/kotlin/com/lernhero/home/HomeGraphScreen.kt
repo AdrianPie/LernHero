@@ -23,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.lernhero.game.FightScreen
 import com.lernhero.game.GameScreen
 import com.lernhero.home.component.NavBottomBar
 import com.lernhero.home.domain.BottomBarDestination
@@ -47,45 +48,55 @@ fun HomeGraphScreen() {
             val route = currentRoute.value?.destination?.route.toString()
             when {
                 route.contains(BottomBarDestination.Home.route.toString()) -> BottomBarDestination.Home
-                route.contains(BottomBarDestination.Fight.route.toString()) -> BottomBarDestination.Fight
+                route.contains(BottomBarDestination.Game.route.toString()) -> BottomBarDestination.Game
                 route.contains(BottomBarDestination.Shop.route.toString()) -> BottomBarDestination.Shop
                 else -> BottomBarDestination.Home
             }
         }
     }
+    val showBars by remember {
+        derivedStateOf {
+            val route = currentRoute.value?.destination?.route.toString()
+            !route.contains(Screen.FightScreen.toString())
+        }
+    }
     Scaffold(
         containerColor = Surface,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    AnimatedContent(
-                        targetState = selectedDestination
-                    ){destination ->
-                        Text(
-                            text = destination.title,
-                            fontFamily = FontFirst(),
-                            fontSize = FontSize.LARGE,
-                            color = TextPrimary
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            painter = painterResource(Resources.Icon.Menu),
-                            contentDescription = "Menu Icon"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Surface,
-                    scrolledContainerColor = Surface,
-                    navigationIconContentColor = IconPrimary,
-                    titleContentColor = TextPrimary,
-                    actionIconContentColor = IconPrimary
+        topBar = if (showBars) {
+            {
+                CenterAlignedTopAppBar(
+                    title = {
+                        AnimatedContent(
+                            targetState = selectedDestination
+                        ){destination ->
+                            Text(
+                                text = destination.title,
+                                fontFamily = FontFirst(),
+                                fontSize = FontSize.LARGE,
+                                color = TextPrimary
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = {}) {
+                            Icon(
+                                painter = painterResource(Resources.Icon.Menu),
+                                contentDescription = "Menu Icon"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Surface,
+                        scrolledContainerColor = Surface,
+                        navigationIconContentColor = IconPrimary,
+                        titleContentColor = TextPrimary,
+                        actionIconContentColor = IconPrimary
 
+                    )
                 )
-            )
+            }
+        } else {
+            { }
         }
     ) { paddingValues ->
         Column(modifier = Modifier.fillMaxSize()
@@ -100,27 +111,32 @@ fun HomeGraphScreen() {
                 startDestination = Screen.Home
             ) {
                 composable<Screen.Home> {  }
-                composable<Screen.FightScreen> {
-                    GameScreen()
-                }
+                composable<Screen.GameScreen> { GameScreen(
+                    navigateToFightScreen = {
+                        navController.navigate(Screen.FightScreen)
+                    }
+                ) }
                 composable<Screen.Shop> {  }
+                composable<Screen.FightScreen> { FightScreen() }
 
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            NavBottomBar(
-                selected = selectedDestination,
-                onSelect = {destination ->
-                    navController.navigate(destination.route) {
-                        launchSingleTop = true
-                        popUpTo<Screen.Home> {
-                            saveState = true
-                            inclusive = false
+            if (showBars) {
+                Spacer(modifier = Modifier.height(12.dp))
+                NavBottomBar(
+                    selected = selectedDestination,
+                    onSelect = {destination ->
+                        navController.navigate(destination.route) {
+                            launchSingleTop = true
+                            popUpTo<Screen.Home> {
+                                saveState = true
+                                inclusive = false
+                            }
+                            restoreState = true
                         }
-                        restoreState = true
-                    }
 
-                }
-            )
+                    }
+                )
+            }
 
         }
 

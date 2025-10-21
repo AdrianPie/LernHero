@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import lernhero.shared.generated.resources.Res
+import lernhero.shared.generated.resources.pixelify_regular
 import lernhero.shared.generated.resources.roboto
 import lernhero.shared.generated.resources.roboto_condensed_black
 import org.jetbrains.compose.resources.Font
@@ -19,6 +20,11 @@ fun FontFirst() =
 fun FontSecond() =
     FontFamily(
         Font(Res.font.roboto_condensed_black)
+    )
+@Composable
+fun FontPixel() =
+    FontFamily(
+        Font(Res.font.pixelify_regular)
     )
 
 object FontSize {

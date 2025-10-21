@@ -29,6 +29,7 @@ dependencyResolutionManagement {
 }
 include(":data")
 include(":di")
+include(":domain")
 include(":feature:game")
 include(":game")
 

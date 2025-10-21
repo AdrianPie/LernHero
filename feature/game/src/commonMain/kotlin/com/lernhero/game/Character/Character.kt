@@ -16,7 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.LoadingIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -76,7 +79,6 @@ fun Character(
                 mana = mana,
                 maxHp = maxHp,
                 maxMana = maxMana,
-                spriteWidth = spriteCharacter.frameWidth
             )
 
             Spacer(Modifier.height(6.dp))
@@ -85,10 +87,6 @@ fun Character(
                 spriteCharacter = spriteCharacter,
                 spriteEffect = spriteEffect,
             )
-
-            Button(onClick = { onClickPlus() }) { Text("Change Scale +") }
-            Button(onClick = { onClickMinus() }) { Text("Change Scale -") }
-            Button(onClick = { onClickEffect() }) { Text("Effect") }
         }
 
     }
@@ -186,42 +184,34 @@ fun CharacterStats(
     mana: Float,
     maxHp: Float,
     maxMana: Float,
-    spriteWidth: Int
 ){
-    val animatedHp by animateFloatAsState(
-        targetValue = hp/maxHp,
-        animationSpec = tween(600,100, LinearOutSlowInEasing),
-    )
-    val animatedMana by animateFloatAsState(
-        targetValue = mana/maxMana,
-        animationSpec = tween(600,100, LinearOutSlowInEasing),
-    )
-
     Column(
             modifier = modifier.fillMaxWidth(0.5f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+        CircularProgressIndicator(
+        progress = { hp / maxHp },
 
-        CustomStatBar(
-            progress = hp / maxHp,
-            color = Color.Red,
-            backgroundColor = Color.DarkGray,
-            height = 16.dp,
-            modifier = Modifier.fillMaxWidth(),
-            current = hp,
-            max = maxHp,
+        modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp)
+                        .clip(RoundedCornerShape(4.dp)),
+        color = Color.Red,
+        trackColor = Color.DarkGray,
+        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
         )
         Spacer(Modifier.height(4.dp))
-
-        CustomStatBar(
-            progress = mana / maxMana,
-            color = Color.Blue,
-            backgroundColor = Color.DarkGray,
-            height = 16.dp,
-            modifier = Modifier.fillMaxWidth(),
-            current = mana,
-            max = maxMana,
+        LinearProgressIndicator(
+            progress = { mana / maxMana },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .clip(RoundedCornerShape(4.dp)),
+            color = Color.Red,
+            trackColor = Color.DarkGray,
+            strokeCap = ProgressIndicatorDefaults.CircularDeterminateStrokeCap,
         )
+
         }
 
 

@@ -25,6 +25,9 @@ val SurfaceBrand = Yellowish
 val SurfaceError = Red
 val SurfaceSecondary = Orange
 
+val SilverSoft = Color(0xFFc8d3d5)
+val SilverDeep = Color(0xFFa4b8c4)
+
 val BorderIdle = GrayDarker
 val BorderError = Red
 val BorderSecondary = Orange

@@ -31,6 +31,10 @@ import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
 import lernhero.shared.generated.resources.fire_sprite
+import lernhero.shared.generated.resources.knight_avatar
+import lernhero.shared.generated.resources.knight_avatar2
+import lernhero.shared.generated.resources.sorcerer_avatar
+import lernhero.shared.generated.resources.sorcerer_avatar2
 import lernhero.shared.generated.resources.sprite3
 import lernhero.shared.generated.resources.swords_24px
 import lernhero.shared.generated.resources.unlock
@@ -75,6 +79,9 @@ object Resources {
         val Cat = Res.drawable.cat
         val GoogleLogo = Res.drawable.google_logo
         val PaypalLogo = Res.drawable.paypal_logo
+
+        val knightAvatar = Res.drawable.knight_avatar2
+        val sorcererAvatar = Res.drawable.sorcerer_avatar2
     }
     object Flag {
         val India = Res.drawable.india

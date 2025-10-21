@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.lernhero.auth.compontent.CustomDialog
 import com.lernhero.auth.compontent.GoogleButton
 import com.lernhero.shared.FontFirst
 import com.lernhero.shared.FontSize
@@ -38,6 +40,7 @@ import rememberMessageBarState
 fun AuthScreen(
     navigateToHome: () -> Unit
 ) {
+    var showDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val viewModel = koinViewModel<AuthViewModel>()
     val messageBarState = rememberMessageBarState()
@@ -79,6 +82,11 @@ fun AuthScreen(
 
 
                 }
+                Button(
+                    onClick = {showDialog = true}
+                ){
+                    Text("dupa")
+                }
                 GoogleButtonUiContainerFirebase(
                     linkAccount = false,
                     onResult = { result ->
@@ -89,7 +97,8 @@ fun AuthScreen(
                                     scope.launch {
                                         messageBarState.addSuccess("Signed in successfully")
                                         delay(2000)
-                                        navigateToHome()
+                                        showDialog = true
+
                                     }
 
                                 },
@@ -120,9 +129,10 @@ fun AuthScreen(
                         },
                     )
                 }
-
             }
-
         }
+        CustomDialog(showDialog,
+            onDismiss = { showDialog = false }
+        )
     }
 }
