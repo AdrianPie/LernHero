@@ -1,11 +1,11 @@
-package com.lernhero.domain.data
+package com.lernhero.domain.preset
 
 import com.lernhero.shared.domain.Character
 
 object CharacterPreset {
     val Knight = Character(
         id = "knight",
-        isPlayer = false,
+        isPlayer = true,
         hp = 50,
         mana = 20,
         maxHp = 50,
@@ -16,7 +16,7 @@ object CharacterPreset {
     )
     val Sorcerer = Character(
         id = "sorcerer",
-        isPlayer = false,
+        isPlayer = true,
         hp = 30,
         mana = 50,
         maxHp = 30,

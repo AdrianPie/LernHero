@@ -15,6 +15,7 @@ import androidx.graphics.shapes.RoundedPolygon
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lernhero.data.domain.PlayerRepository
+import com.lernhero.shared.domain.Character
 import dev.gitlive.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -33,14 +34,23 @@ class AuthViewModel(
     private val _uiState = MutableStateFlow(AuthStateUi())
     val uiState: StateFlow<AuthStateUi> = _uiState
 
+    private val _user = MutableStateFlow<FirebaseUser?>(null)
+    val user = _user.asStateFlow()
+
+
     fun toggleAnimate() {
         _uiState.value = _uiState.value.copy(animate = !uiState.value.animate)
     }
 
+    fun setUser(newUser: FirebaseUser?) {
+        _user.value = newUser
+    }
 
 
     fun createPlayer(
         user: FirebaseUser?,
+        character: Character,
+        name: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ){
@@ -48,16 +58,11 @@ class AuthViewModel(
             playerRepository.createPlayer(
                 user = user,
                 onSuccess = onSuccess,
-                onFailure = onFailure
+                name = name,
+                onFailure = onFailure,
+                character = character
             )
         }
     }
 
-    fun CreateCharacter(
-        user: FirebaseUser?,
-        onSuccess: () -> Unit,
-        onFailure: (String) -> Unit
-    ){
-
-    }
 }

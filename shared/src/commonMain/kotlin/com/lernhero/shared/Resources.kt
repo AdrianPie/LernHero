@@ -31,6 +31,7 @@ import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
 import lernhero.shared.generated.resources.fire_sprite
+import lernhero.shared.generated.resources.knight_attack_sprite
 import lernhero.shared.generated.resources.knight_avatar
 import lernhero.shared.generated.resources.knight_avatar2
 import lernhero.shared.generated.resources.sorcerer_avatar
@@ -95,6 +96,15 @@ object Resources {
             frameHeight = 707,
             totalFrames = 9,
             framesPerRow = 3,
+            animationSpeed = 100,
+            localWidth = 100.dp
+        )
+        val knightAtk: SpriteAsset = SpriteAsset(
+            drawable = Res.drawable.knight_attack_sprite,
+            frameWidth = 587,
+            frameHeight = 707,
+            totalFrames = 10,
+            framesPerRow = 4,
             animationSpeed = 100,
             localWidth = 100.dp
         )

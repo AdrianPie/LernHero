@@ -1,5 +1,6 @@
 package com.lernhero.auth.compontent
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
@@ -31,6 +32,7 @@ import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialShapes.Companion.Circle
 import androidx.compose.material3.MaterialShapes.Companion.PixelCircle
+import androidx.compose.material3.MaterialShapes.Companion.Sunny
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 
@@ -54,13 +56,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.graphics.shapes.RoundedPolygon
 import com.lernhero.auth.AuthViewModel
-import com.lernhero.domain.data.CharacterPreset
+import com.lernhero.domain.preset.CharacterPreset
 import com.lernhero.shared.domain.Character
 import com.lernhero.shared.FontPixel
 import com.lernhero.shared.FontSize
 import com.lernhero.shared.Resources
 import com.lernhero.shared.SilverDeep
 import com.lernhero.shared.StatsHelper
+import com.lernhero.shared.SurfaceError
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
@@ -70,16 +73,21 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun CustomDialog(
     show: Boolean,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
-    val viewmodel = koinViewModel<AuthViewModel>()
+    val viewModel = koinViewModel<AuthViewModel>()
     if (show) {
         Dialog(onDismissRequest = onDismiss) {
             var clickedKnight by remember { mutableStateOf(false) }
             var clickedSorcerer by remember { mutableStateOf(false) }
+            var rememberCharacter by remember { mutableStateOf<Character?>(null) }
             var scaleKnight by remember { mutableStateOf(1f) }
             var scaleSorcerer by remember { mutableStateOf(1f) }
-            val rememberAnimate by remember { mutableStateOf(true) }
+            var name by remember { mutableStateOf("") }
+            var showLoadingIndicator by remember { mutableStateOf(false) }
+
+            val scope = rememberCoroutineScope()
 
             val animatedScaleKnight by animateFloatAsState(
                 targetValue = scaleKnight,
@@ -95,7 +103,7 @@ fun CustomDialog(
                     stiffness = Spring.StiffnessLow
                 )
             )
-            var name by remember { mutableStateOf("") }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -149,9 +157,10 @@ fun CustomDialog(
                                     onClick = {
                                         clickedKnight = true
                                         clickedSorcerer = false
+                                        rememberCharacter = CharacterPreset.Knight
                                         scaleSorcerer = 0.7f
                                         scaleKnight = 1.5f
-                                        viewmodel.toggleAnimate()
+                                        viewModel.toggleAnimate()
                                     }
                                 )
                         ) {
@@ -180,9 +189,10 @@ fun CustomDialog(
                                     onClick = {
                                         clickedKnight = false
                                         clickedSorcerer = true
+                                        rememberCharacter = CharacterPreset.Sorcerer
                                         scaleSorcerer = 1.5f
                                         scaleKnight = 0.7f
-                                        viewmodel.toggleAnimate()
+                                        viewModel.toggleAnimate()
                                     }
                                 )
                         ) {
@@ -192,7 +202,7 @@ fun CustomDialog(
                                     Circle,
                                     PixelCircle
                                 ),
-                                color = SilverDeep
+                                color = SurfaceError
                             )
                             Image(
                                 painter = painterResource(Resources.Image.sorcererAvatar),
@@ -216,9 +226,46 @@ fun CustomDialog(
                         }
                     }
                 }
+                AnimatedVisibility(showLoadingIndicator){
+                    LoadingIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        polygons = listOf(
+                            Circle,
+                            PixelCircle,
+                            Sunny
+                        ),
+                    )
+                }
                 Button(
                     modifier = Modifier.align(Alignment.BottomCenter),
-                    onClick = onDismiss,
+                    enabled = name.isNotEmpty(),
+                    onClick = {
+                        showLoadingIndicator = true
+                        viewModel.createPlayer(
+                            user = viewModel.user.value,
+                            onSuccess = {
+                                scope.launch {
+                                    delay(2000)
+                                    showLoadingIndicator = false
+                                    delay(500)
+                                    navigateToHome()
+                                }
+
+
+                            },
+                            onFailure = { error ->
+                                scope.launch {
+                                    delay(2000)
+                                    showLoadingIndicator = false
+                                    println("Error: $error")
+                                }
+
+
+                            },
+                            character = rememberCharacter!!,
+                            name = name
+                        )
+                    } ,
                 ) {
                     Text("Save")
                 }

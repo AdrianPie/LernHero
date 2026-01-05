@@ -12,9 +12,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,21 +31,25 @@ fun FightScreen(
         modifier = Modifier.fillMaxSize(),
         color = Surface
     ){
-        var scale by remember { mutableStateOf(1f) }
+
         Row(modifier = Modifier
             .fillMaxSize()
-            ) {
+        ) {
             PlayerContainer(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
                 yourCharacter = { Character(
                     targetScale = scale,
-                    spriteCharacter = Resources.Sprite.knight,
+                    spriteCharacter = Resources.Sprite.knightAtk,
                     spriteEffect = Resources.Sprite.fireEffect,
                     onClickPlus = { scale += 0.1f },
                     onClickMinus = { scale -= 0.1f },
-                    onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
+                    effect = { viewModel.changeEffectVisibility(!state.playerFirst.effectActive) },
+                    hp = 85f,
+                    mana = 67f,
+                    maxHp = 100f,
+                    maxMana = 100f
                 ) },
                 allyCharacter = { Character(
                     targetScale = scale,
@@ -56,7 +57,11 @@ fun FightScreen(
                     spriteEffect = Resources.Sprite.fireEffect,
                     onClickPlus = { scale += 0.1f },
                     onClickMinus = { scale -= 0.1f },
-                    onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
+                    effect = { viewModel.changeEffectVisibility(!state.playerSecond.effectActive) },
+                    hp = 60f,
+                    mana = 35f,
+                    maxHp = 80f,
+                    maxMana = 60f
                 )}
             )
 
@@ -76,7 +81,11 @@ fun FightScreen(
                     spriteEffect = Resources.Sprite.fireEffect,
                     onClickPlus = { scale += 0.1f },
                     onClickMinus = { scale -= 0.1f },
-                    onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
+                    effect = { viewModel.changeEffectVisibility(!state.effectState) },
+                    hp = 95f,
+                    mana = 80f,
+                    maxHp = 120f,
+                    maxMana = 100f
                 )},
                 opponent2 = { Character(
                     targetScale = scale,
@@ -84,7 +93,11 @@ fun FightScreen(
                     spriteEffect = Resources.Sprite.fireEffect,
                     onClickPlus = { scale += 0.1f },
                     onClickMinus = { scale -= 0.1f },
-                    onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
+                    effect = { viewModel.changeEffectVisibility(!state.effectState) },
+                    hp = 40f,
+                    mana = 20f,
+                    maxHp = 60f,
+                    maxMana = 40f
                 )},
                 opponent3 = { Character(
                     targetScale = scale,
@@ -92,7 +105,11 @@ fun FightScreen(
                     spriteEffect = Resources.Sprite.fireEffect,
                     onClickPlus = { scale += 0.1f },
                     onClickMinus = { scale -= 0.1f },
-                    onClickEffect = {  viewModel.changeEffectVisibility(!state.effectState) }
+                    effect = { viewModel.changeEffectVisibility(!state.effectState) },
+                    hp = 70f,
+                    mana = 50f,
+                    maxHp = 90f,
+                    maxMana = 70f
                 )}
             )
         }
@@ -116,8 +133,8 @@ fun PlayerContainer(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-           Row(modifier = Modifier.fillMaxWidth().border(3.dp, Color.Blue)) { yourCharacter() }
-           Row(modifier = Modifier.fillMaxWidth().border(3.dp, Color.Blue)) { allyCharacter() }
+            Row(modifier = Modifier.fillMaxWidth().border(3.dp, Color.Blue)) { yourCharacter() }
+            Row(modifier = Modifier.fillMaxWidth().border(3.dp, Color.Blue)) { allyCharacter() }
         }
     }
 
@@ -164,5 +181,3 @@ fun OpponentContainer(
         }
     }
 }
-
-

@@ -1,6 +1,7 @@
 package com.lernhero.data
 
 import com.lernhero.data.domain.PlayerRepository
+import com.lernhero.shared.domain.Character
 import com.lernhero.shared.domain.Player
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
@@ -12,8 +13,12 @@ class PlayerRepositoryImpl: PlayerRepository {
         return Firebase.auth.currentUser?.uid
     }
 
+
+
     override suspend fun createPlayer(
         user: FirebaseUser?,
+        name: String,
+        character: Character?,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
@@ -22,8 +27,9 @@ class PlayerRepositoryImpl: PlayerRepository {
                 val playerCollection = Firebase.firestore.collection(collectionPath = "player")
                 val player = Player(
                     id = user.uid,
-                    name = user.displayName?.split(" ")?.firstOrNull() ?: "Unknown",
+                    name = name,
                     email = user.email ?: "Unknown",
+                    character = character,
                 )
 
                 val playerExists = playerCollection.document(user.uid).get().exists

@@ -5,39 +5,18 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.LoadingIndicator
-import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.lernhero.game.GameViewModel
-import com.lernhero.game.component.CustomStatBar
 import com.lernhero.shared.SpriteAsset
 import com.stevdza_san.sprite.component.SpriteView
 import com.stevdza_san.sprite.domain.SpriteSheet
@@ -46,23 +25,28 @@ import com.stevdza_san.sprite.domain.rememberSpriteState
 import com.stevdza_san.sprite.util.getScreenWidth
 import org.koin.compose.viewmodel.koinViewModel
 
+
+/*───────────────────────────────────────────────────────────────
+    MAIN CHARACTER COMPOSABLE
+───────────────────────────────────────────────────────────────*/
 @Composable
 fun Character(
     hp: Float = 85f,
     mana: Float = 67f,
     maxHp: Float = 100f,
     maxMana: Float = 100f,
-    spriteCharacter : SpriteAsset,
+    spriteCharacter: SpriteAsset,
     spriteEffect: SpriteAsset,
-    targetScale : Float = 1.0f,
-    onClickPlus : () -> Unit,
-    onClickMinus : () -> Unit,
-    onClickEffect : () -> Unit,
+    targetScale: Float = 1f,
+    onClickPlus: () -> Unit = {},
+    onClickMinus: () -> Unit = {},
+    effect: () -> Unit = {},
 ) {
-    val  scale by animateFloatAsState(
-        targetScale,
-        animationSpec = tween(600,100, LinearOutSlowInEasing),
+    val scale by animateFloatAsState(
+        targetValue = targetScale,
+        animationSpec = tween(600, 100, LinearOutSlowInEasing)
     )
+
     Box(
         modifier = Modifier
             .requiredWidth(spriteCharacter.localWidth)
@@ -70,37 +54,91 @@ fun Character(
             .scale(scale),
         contentAlignment = Alignment.Center
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CharacterStats(
-                modifier = Modifier.fillMaxWidth(),
-                hp = hp,
-                mana = mana,
-                maxHp = maxHp,
-                maxMana = maxMana,
-            )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Spacer(Modifier.height(6.dp))
+            // Sprite + feet stats underneath
+            Box(
+                modifier = Modifier
+                    .requiredWidth(spriteCharacter.localWidth)
+                    .requiredHeight(spriteCharacter.localWidth * spriteCharacter.ratio),
+                contentAlignment = Alignment.Center
+            ) {
+                AnimatedCharacter(
+                    spriteCharacter = spriteCharacter,
+                    spriteEffect = spriteEffect
+                )
 
-            AnimatedCharacter(
-                spriteCharacter = spriteCharacter,
-                spriteEffect = spriteEffect,
-            )
+                FeetStatsRow(
+                    hp = hp,
+                    maxHp = maxHp,
+                    mana = mana,
+                    maxMana = maxMana,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .offset(y = (10).dp)   // how much circles overlap sprite feet
+                        .zIndex(10f)            // guarantee on top
+                )
+            }
         }
-
     }
 }
 
+
+/*───────────────────────────────────────────────────────────────
+    FEET HP & MANA CIRCLES (LEFT = HP, RIGHT = MANA)
+───────────────────────────────────────────────────────────────*/
+@Composable
+fun FeetStatsRow(
+    modifier: Modifier = Modifier,
+    hp: Float,
+    maxHp: Float,
+    mana: Float,
+    maxMana: Float,
+    size: Dp = 34.dp,
+    spacing: Dp = 30.dp,
+    stroke: Dp = 5.dp
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        // HP circle
+        CircularProgressIndicator(
+            progress = { (hp / maxHp).coerceIn(0f, 1f) }, // LAMBDA as requested
+            modifier = Modifier.size(size),
+            color = Color.Red,
+            trackColor = Color.DarkGray,
+            strokeWidth = stroke
+        )
+
+        Spacer(Modifier.width(spacing))
+
+        // MANA circle
+        CircularProgressIndicator(
+            progress = { (mana / maxMana).coerceIn(0f, 1f) }, // LAMBDA
+            modifier = Modifier.size(size),
+            color = Color.Blue,
+            trackColor = Color.DarkGray,
+            strokeWidth = stroke
+        )
+    }
+}
+
+
+/*───────────────────────────────────────────────────────────────
+    THE ORIGINAL ANIMATED CHARACTER (UNTOUCHED)
+───────────────────────────────────────────────────────────────*/
 @Composable
 fun AnimatedCharacter(
-    spriteCharacter : SpriteAsset,
-    spriteEffect : SpriteAsset,
-){
+    spriteCharacter: SpriteAsset,
+    spriteEffect: SpriteAsset,
+) {
     val viewModel = koinViewModel<GameViewModel>()
     val uiState by viewModel.uiState.collectAsState()
-    val screenWidth = getScreenWidth()
     val density = LocalDensity.current
+    val screenWidth = getScreenWidth()
 
     val scaleCharacter = remember(spriteCharacter, density) {
         spriteCharacter.scaleWidthFactor(density)
@@ -108,7 +146,6 @@ fun AnimatedCharacter(
     val scaleEffect = remember(spriteCharacter, spriteEffect, density) {
         spriteEffect.scaleFactorRelativeTo(spriteCharacter, 0.8f, density)
     }
-
 
     val spriteCharacterState = rememberSpriteState(
         totalFrames = spriteCharacter.totalFrames,
@@ -128,7 +165,7 @@ fun AnimatedCharacter(
             spriteCharacterState.cleanup()
         }
     }
-    
+
     LaunchedEffect(Unit) { spriteCharacterState.start() }
 
     Box(
@@ -137,7 +174,8 @@ fun AnimatedCharacter(
             .requiredHeight(spriteCharacter.localWidth * spriteCharacter.ratio)
             .border(2.dp, Color.Red),
         contentAlignment = Alignment.Center
-    ){
+    ) {
+
         SpriteView(
             modifier = Modifier.scale(scaleCharacter),
             spriteState = spriteCharacterState,
@@ -147,15 +185,18 @@ fun AnimatedCharacter(
                     frameWidth = spriteCharacter.frameWidth,
                     frameHeight = spriteCharacter.frameHeight,
                     image = spriteCharacter.drawable
+                )
             )
         )
-    )
+
+        // effect animation
         LaunchedEffect(uiState.effectState) {
             if (uiState.effectState) spriteEffectState.start()
         }
+
         AnimatedVisibility(visible = uiState.effectState) {
             LaunchedEffect(currentEffectFrame) {
-                if (currentEffectFrame == (spriteEffect.totalFrames - 1)) {
+                if (currentEffectFrame == spriteEffect.totalFrames - 1) {
                     spriteEffectState.stop()
                     viewModel.changeEffectVisibility(false)
                 }
@@ -173,47 +214,5 @@ fun AnimatedCharacter(
                 )
             )
         }
-
     }
-
-}
-@Composable
-fun CharacterStats(
-    modifier: Modifier,
-    hp: Float,
-    mana: Float,
-    maxHp: Float,
-    maxMana: Float,
-){
-    Column(
-            modifier = modifier.fillMaxWidth(0.5f),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-        CircularProgressIndicator(
-        progress = { hp / maxHp },
-
-        modifier = Modifier
-                        .fillMaxWidth()
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(4.dp)),
-        color = Color.Red,
-        trackColor = Color.DarkGray,
-        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
-        )
-        Spacer(Modifier.height(4.dp))
-        LinearProgressIndicator(
-            progress = { mana / maxMana },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .clip(RoundedCornerShape(4.dp)),
-            color = Color.Red,
-            trackColor = Color.DarkGray,
-            strokeCap = ProgressIndicatorDefaults.CircularDeterminateStrokeCap,
-        )
-
-        }
-
-
-
 }

@@ -41,7 +41,6 @@ fun AuthScreen(
     navigateToHome: () -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
     val viewModel = koinViewModel<AuthViewModel>()
     val messageBarState = rememberMessageBarState()
     var loadingState by remember { mutableStateOf(false) }
@@ -91,22 +90,8 @@ fun AuthScreen(
                     linkAccount = false,
                     onResult = { result ->
                         result.onSuccess { user ->
-                            viewModel.createPlayer(
-                                user = user,
-                                onSuccess = {
-                                    scope.launch {
-                                        messageBarState.addSuccess("Signed in successfully")
-                                        delay(2000)
-                                        showDialog = true
-
-                                    }
-
-                                },
-                                onFailure = { error ->
-                                    messageBarState.addError("Player creation failed: $error")
-                                }
-                            )
-
+                            viewModel.setUser(user)
+                            showDialog = true
                             loadingState = false
                         }.onFailure { error ->
                             if (error.message?.contains("a network error") == true) {
@@ -132,7 +117,8 @@ fun AuthScreen(
             }
         }
         CustomDialog(showDialog,
-            onDismiss = { showDialog = false }
+            onDismiss = { showDialog = false },
+            navigateToHome = navigateToHome
         )
     }
 }
