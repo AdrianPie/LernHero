@@ -3,8 +3,11 @@ package com.lernhero.shared
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import lernhero.shared.generated.resources.ATTACK3
 import lernhero.shared.generated.resources.Res
+import lernhero.shared.generated.resources.attack2
 import lernhero.shared.generated.resources.back_arrow
+import lernhero.shared.generated.resources.battle_mage_avatar
 import lernhero.shared.generated.resources.book
 import lernhero.shared.generated.resources.cat
 import lernhero.shared.generated.resources.check
@@ -31,13 +34,20 @@ import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
 import lernhero.shared.generated.resources.fire_sprite
+
 import lernhero.shared.generated.resources.knight_attack_sprite
 import lernhero.shared.generated.resources.knight_avatar
 import lernhero.shared.generated.resources.knight_avatar2
+import lernhero.shared.generated.resources.ramka_test
+import lernhero.shared.generated.resources.ramka_test2
+import lernhero.shared.generated.resources.samurai_idle
 import lernhero.shared.generated.resources.sorcerer_avatar
 import lernhero.shared.generated.resources.sorcerer_avatar2
 import lernhero.shared.generated.resources.sprite3
 import lernhero.shared.generated.resources.swords_24px
+import lernhero.shared.generated.resources.test3
+import lernhero.shared.generated.resources.testattack
+import lernhero.shared.generated.resources.testgowno
 import lernhero.shared.generated.resources.unlock
 import lernhero.shared.generated.resources.usa
 import lernhero.shared.generated.resources.user
@@ -81,6 +91,10 @@ object Resources {
         val GoogleLogo = Res.drawable.google_logo
         val PaypalLogo = Res.drawable.paypal_logo
 
+        val boundsDragonArmor = Res.drawable.ramka_test
+        val boundsDruidArmor = Res.drawable.ramka_test2
+
+        val battleMageAvatarGame = Res.drawable.battle_mage_avatar
         val knightAvatar = Res.drawable.knight_avatar2
         val sorcererAvatar = Res.drawable.sorcerer_avatar2
     }
@@ -97,16 +111,38 @@ object Resources {
             totalFrames = 9,
             framesPerRow = 3,
             animationSpeed = 100,
-            localWidth = 100.dp
+            localWidth = 100.dp,
+            renderScale = 1f
         )
         val knightAtk: SpriteAsset = SpriteAsset(
-            drawable = Res.drawable.knight_attack_sprite,
+            drawable = Res.drawable.ATTACK3,
             frameWidth = 587,
             frameHeight = 707,
-            totalFrames = 10,
-            framesPerRow = 4,
+            totalFrames = 1,
+            framesPerRow = 1,
             animationSpeed = 100,
-            localWidth = 100.dp
+            localWidth = 100.dp,
+            renderScale = 1f
+        )
+        val samuraiIdle: SpriteAsset = SpriteAsset(
+            drawable = Res.drawable.samurai_idle,
+            frameWidth = 36,
+            frameHeight = 68,
+            totalFrames = 7,
+            framesPerRow = 7,
+            animationSpeed = 100,
+            localWidth = 100.dp,
+            renderScale = 0.45f
+        )
+        val knightAtkTest: SpriteAsset = SpriteAsset(
+            drawable = Res.drawable.testattack,
+            frameWidth = 587,
+            frameHeight = 707,
+            totalFrames = 1,
+            framesPerRow = 1,
+            animationSpeed = 100,
+            localWidth = 100.dp,
+            renderScale = 1f
         )
         val fireEffect: SpriteAsset = SpriteAsset(
             drawable = Res.drawable.fire_sprite,
@@ -115,7 +151,8 @@ object Resources {
             totalFrames = 21,
             framesPerRow = 7,
             animationSpeed = 100,
-            localWidth = 70.dp
+            localWidth = 70.dp,
+            renderScale = 1f
         )
     }
 }
@@ -127,11 +164,14 @@ data class SpriteAsset(
     val framesPerRow: Int,
     val animationSpeed: Long,
     val localWidth: Dp,
+    val renderScale: Float = 1f,
 ){
     fun scaleWidthFactor(density: Density): Float {
         val frameWidthDp = with(density) { frameWidth.toDp() }
         return localWidth / frameWidthDp
     }
+    val effectiveWidth: Dp
+        get() = localWidth * renderScale
     val ratio: Float
         get() = frameHeight.toFloat() / frameWidth.toFloat()
 

@@ -1,8 +1,9 @@
 package com.lernhero.data
 
-import com.lernhero.data.domain.PlayerRepository
-import com.lernhero.shared.domain.Character
-import com.lernhero.shared.domain.Player
+
+import com.lernhero.domain.data.PlayerRepository
+import com.lernhero.domain.preset.Character
+import com.lernhero.domain.preset.Player
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
@@ -12,8 +13,6 @@ class PlayerRepositoryImpl: PlayerRepository {
     override fun getUserId(): String? {
         return Firebase.auth.currentUser?.uid
     }
-
-
 
     override suspend fun createPlayer(
         user: FirebaseUser?,

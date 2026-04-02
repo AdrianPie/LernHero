@@ -13,7 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.lernhero.data.domain.PlayerRepository
+import com.lernhero.domain.data.PlayerRepository
+
 import com.lernhero.shared.Screen
 import com.lernhero.navigation.SetupNavGraph
 import com.lernhero.shared.Constans

@@ -2,7 +2,8 @@ package com.lernhero.di
 
 import com.lernhero.auth.AuthViewModel
 import com.lernhero.data.PlayerRepositoryImpl
-import com.lernhero.data.domain.PlayerRepository
+import com.lernhero.domain.data.PlayerRepository
+
 import com.lernhero.game.GameViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin

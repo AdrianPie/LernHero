@@ -1,7 +1,5 @@
 package com.lernhero.domain.preset
 
-import com.lernhero.shared.domain.Character
-
 object CharacterPreset {
     val Knight = Character(
         id = "knight",
@@ -11,8 +9,7 @@ object CharacterPreset {
         maxHp = 50,
         maxMana = 20,
         attack = 10,
-        defense = 15,
-        speed = 12
+
     )
     val Sorcerer = Character(
         id = "sorcerer",
@@ -22,8 +19,6 @@ object CharacterPreset {
         maxHp = 30,
         maxMana = 50,
         attack = 15,
-        defense = 11,
-        speed = 20
     )
 
 }

@@ -1,5 +1,4 @@
-import org.gradle.kotlin.dsl.invoke
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -47,6 +46,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             implementation(project(path = ":feature:auth"))
+            implementation(project(path = ":domain"))
             implementation(project(path = ":data"))
             implementation(project(path = ":feature:game"))
 

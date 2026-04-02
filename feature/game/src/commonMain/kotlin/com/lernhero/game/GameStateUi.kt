@@ -1,19 +1,14 @@
 package com.lernhero.game
 
+import com.lernhero.game.Character.CharacterUiModel
+import com.lernhero.game.Character.EffectId
 
-data class CharacterUiState(
-    val effectActive: Boolean = false,
-    val isAttacking: Boolean = false,
-    val hp: Int = 0,
-    val mana: Int = 0,
-    val scale: Float = 1f
-)
+typealias CharacterId = String
 
 data class GameStateUi(
-    val playerFirst: CharacterUiState = CharacterUiState(),
-    val playerSecond: CharacterUiState = CharacterUiState(),
+    val characters: Map<CharacterId, CharacterUiModel> = emptyMap()
+)
 
-    val enemyFirst: CharacterUiState = CharacterUiState(),
-    val enemySecond: CharacterUiState = CharacterUiState(),
-    val enemyThird: CharacterUiState = CharacterUiState()
+data class EffectUiState(
+    val effectId: EffectId
 )

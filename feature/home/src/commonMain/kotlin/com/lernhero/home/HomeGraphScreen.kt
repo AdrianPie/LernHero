@@ -1,10 +1,9 @@
 package com.lernhero.home
 
+import com.lernhero.game.FightScreen
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,13 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.lernhero.game.FightScreen
 import com.lernhero.game.GameScreen
 import com.lernhero.home.component.NavBottomBar
 import com.lernhero.home.domain.BottomBarDestination
@@ -99,14 +97,14 @@ fun HomeGraphScreen() {
             { }
         }
     ) { paddingValues ->
-        Column(modifier = Modifier.fillMaxSize()
+        Box(modifier = Modifier.fillMaxSize()
             .padding(
                 top = paddingValues.calculateTopPadding(),
                 bottom = paddingValues.calculateBottomPadding()
             )
         ) {
             NavHost(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.fillMaxSize(),
                 navController = navController,
                 startDestination = Screen.Home
             ) {
@@ -121,8 +119,8 @@ fun HomeGraphScreen() {
 
             }
             if (showBars) {
-                Spacer(modifier = Modifier.height(12.dp))
                 NavBottomBar(
+                    modifier = Modifier.align(Alignment.BottomCenter),
                     selected = selectedDestination,
                     onSelect = {destination ->
                         navController.navigate(destination.route) {

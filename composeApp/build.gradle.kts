@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -56,6 +56,7 @@ kotlin {
 
             implementation(project(path = ":navigation" ))
             implementation(project(path = ":shared" ))
+            implementation(project(path = ":domain" ))
             implementation(project(path = ":di" ))
             implementation(project(path = ":data" ))
 

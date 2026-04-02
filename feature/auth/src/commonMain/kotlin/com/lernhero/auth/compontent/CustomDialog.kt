@@ -1,5 +1,6 @@
 package com.lernhero.auth.compontent
 
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -35,7 +36,6 @@ import androidx.compose.material3.MaterialShapes.Companion.PixelCircle
 import androidx.compose.material3.MaterialShapes.Companion.Sunny
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -49,15 +49,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-
-
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.graphics.shapes.RoundedPolygon
 import com.lernhero.auth.AuthViewModel
+import com.lernhero.domain.preset.Character
 import com.lernhero.domain.preset.CharacterPreset
-import com.lernhero.shared.domain.Character
 import com.lernhero.shared.FontPixel
 import com.lernhero.shared.FontSize
 import com.lernhero.shared.Resources
@@ -226,9 +224,12 @@ fun CustomDialog(
                         }
                     }
                 }
-                AnimatedVisibility(showLoadingIndicator){
+                AnimatedVisibility(
+                    visible = showLoadingIndicator,
+                    modifier = Modifier.align(Alignment.Center)
+                ){
                     LoadingIndicator(
-                        modifier = Modifier.align(Alignment.Center),
+                        modifier = Modifier.size(64.dp),
                         polygons = listOf(
                             Circle,
                             PixelCircle,
@@ -282,11 +283,11 @@ fun CharacterInfo(character: Character){
         Spacer(modifier = Modifier.height(5.dp))
         StatBar("maxMana",character.maxMana, order = 2)
         Spacer(modifier = Modifier.height(5.dp))
-        StatBar("defense",character.defense, order = 3)
+//        StatBar("defense",character.defense, order = 3)
         Spacer(modifier = Modifier.height(5.dp))
         StatBar("attack",character.attack, order = 4)
         Spacer(modifier = Modifier.height(5.dp))
-        StatBar("speed",character.speed, order = 5)
+//        StatBar("speed",character.speed, order = 5)
 
 
 

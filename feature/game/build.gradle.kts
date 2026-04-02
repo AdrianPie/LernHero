@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -58,6 +58,7 @@ kotlin {
 
             implementation(project(path = ":shared" ))
             implementation(project(path = ":data" ))
+            implementation(project(path = ":domain" ))
 
         }
         commonTest.dependencies {
@@ -80,3 +81,6 @@ android {
     }
 }
 
+dependencies {
+    debugImplementation(compose.uiTooling)
+}
