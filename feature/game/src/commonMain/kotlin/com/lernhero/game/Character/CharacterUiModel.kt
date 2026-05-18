@@ -1,6 +1,6 @@
 package com.lernhero.game.Character
 
-import org.jetbrains.compose.resources.DrawableResource
+import com.lernhero.domain.enum.CharacterState
 
 data class CharacterUiModel(
     val id: String,
@@ -9,6 +9,7 @@ data class CharacterUiModel(
     val attack: Int,
     val mana: Int,
     val isPlayer: Boolean,
-    val avatarRes: DrawableResource, // GOTOWY OBRAZEK
-    val armorRes: DrawableResource   // GOTOWA RAMKA
+    val sprites: CharacterSprites,
+    val state: CharacterState = CharacterState.IDLE,
+    val currentTargetId: String? = null
 )

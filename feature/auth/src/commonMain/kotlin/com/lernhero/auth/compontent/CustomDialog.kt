@@ -27,13 +27,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearWavyProgressIndicator
-import androidx.compose.material3.LoadingIndicator
-import androidx.compose.material3.MaterialShapes.Companion.Circle
-import androidx.compose.material3.MaterialShapes.Companion.PixelCircle
-import androidx.compose.material3.MaterialShapes.Companion.Sunny
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,7 +48,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.graphics.shapes.RoundedPolygon
 import com.lernhero.auth.AuthViewModel
 import com.lernhero.domain.preset.Character
 import com.lernhero.domain.preset.CharacterPreset
@@ -67,7 +62,6 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun CustomDialog(
     show: Boolean,
@@ -164,10 +158,6 @@ fun CustomDialog(
                         ) {
                             ChangeableLoadingIndicator(
                                 isMoving = clickedKnight,
-                                polygons = listOf(
-                                    Circle,
-                                    PixelCircle
-                                ),
                                 color = SilverDeep
                             )
                             Image(
@@ -196,10 +186,6 @@ fun CustomDialog(
                         ) {
                             ChangeableLoadingIndicator(
                                 isMoving = clickedSorcerer,
-                                polygons = listOf(
-                                    Circle,
-                                    PixelCircle
-                                ),
                                 color = SurfaceError
                             )
                             Image(
@@ -228,19 +214,16 @@ fun CustomDialog(
                     visible = showLoadingIndicator,
                     modifier = Modifier.align(Alignment.Center)
                 ){
-                    LoadingIndicator(
+                    CircularProgressIndicator(
                         modifier = Modifier.size(64.dp),
-                        polygons = listOf(
-                            Circle,
-                            PixelCircle,
-                            Sunny
-                        ),
+                        color = SilverDeep
                     )
                 }
                 Button(
                     modifier = Modifier.align(Alignment.BottomCenter),
-                    enabled = name.isNotEmpty(),
+                    enabled = name.isNotEmpty() && rememberCharacter != null,
                     onClick = {
+                        val selectedCharacter = rememberCharacter ?: return@Button
                         showLoadingIndicator = true
                         viewModel.createPlayer(
                             user = viewModel.user.value,
@@ -263,7 +246,7 @@ fun CustomDialog(
 
 
                             },
-                            character = rememberCharacter!!,
+                            character = selectedCharacter,
                             name = name
                         )
                     } ,
@@ -294,7 +277,6 @@ fun CharacterInfo(character: Character){
     }
 
 }
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun StatBar(
     label: String,
@@ -342,7 +324,7 @@ fun StatBar(
             fontSize = FontSize.SMALL
         )
         Spacer(modifier = Modifier.width(5.dp))
-        LinearWavyProgressIndicator(
+        LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
             progress = {animatedProgress},
             color = color!!,
@@ -355,11 +337,9 @@ fun StatBar(
 
 }
 
-@ExperimentalMaterial3ExpressiveApi
 @Composable
 fun ChangeableLoadingIndicator(
     isMoving: Boolean,
-    polygons: List<RoundedPolygon>,
     color: Color
 ){
 
@@ -376,11 +356,11 @@ fun ChangeableLoadingIndicator(
 
     val progress = if (isMoving) animatedProgress else 0f
 
-    LoadingIndicator(
+    CircularProgressIndicator(
         modifier = Modifier.fillMaxSize(),
         progress = {progress},
-        polygons = polygons,
-        color = color
+        color = color,
+        trackColor = color.copy(alpha = 0.18f)
     )
 
 }
@@ -445,6 +425,4 @@ fun ChangeableLoadingIndicator(
 //        return Outline.Generic(path)
 //    }
 //}
-
-
 

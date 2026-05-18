@@ -1,6 +1,5 @@
 package com.lernhero.auth
 
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lernhero.domain.data.PlayerRepository
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 class AuthViewModel(
     private val playerRepository: PlayerRepository
 ): ViewModel() {

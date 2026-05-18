@@ -3,11 +3,10 @@ package com.lernhero.shared
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import lernhero.shared.generated.resources.ATTACK3
 import lernhero.shared.generated.resources.Res
-import lernhero.shared.generated.resources.attack2
 import lernhero.shared.generated.resources.back_arrow
 import lernhero.shared.generated.resources.battle_mage_avatar
+import lernhero.shared.generated.resources.battlegroundTwo
 import lernhero.shared.generated.resources.book
 import lernhero.shared.generated.resources.cat
 import lernhero.shared.generated.resources.check
@@ -16,10 +15,14 @@ import lernhero.shared.generated.resources.close
 import lernhero.shared.generated.resources.delete
 import lernhero.shared.generated.resources.dollar
 import lernhero.shared.generated.resources.edit
+import lernhero.shared.generated.resources.fire_sprite
 import lernhero.shared.generated.resources.google_logo
 import lernhero.shared.generated.resources.grid
 import lernhero.shared.generated.resources.home
 import lernhero.shared.generated.resources.india
+import lernhero.shared.generated.resources.knight_attack_sprite
+import lernhero.shared.generated.resources.knight_avatar2
+import lernhero.shared.generated.resources.knight_sprite
 import lernhero.shared.generated.resources.log_in
 import lernhero.shared.generated.resources.log_out
 import lernhero.shared.generated.resources.logo_splash
@@ -28,26 +31,17 @@ import lernhero.shared.generated.resources.menu
 import lernhero.shared.generated.resources.minus
 import lernhero.shared.generated.resources.paypal_logo
 import lernhero.shared.generated.resources.plus
+import lernhero.shared.generated.resources.ramka_test
+import lernhero.shared.generated.resources.ramka_test2
 import lernhero.shared.generated.resources.right_arrow
+import lernhero.shared.generated.resources.samurai_idle
 import lernhero.shared.generated.resources.search
 import lernhero.shared.generated.resources.serbia
 import lernhero.shared.generated.resources.shopping_cart
 import lernhero.shared.generated.resources.shopping_cart_image
-import lernhero.shared.generated.resources.fire_sprite
-
-import lernhero.shared.generated.resources.knight_attack_sprite
-import lernhero.shared.generated.resources.knight_avatar
-import lernhero.shared.generated.resources.knight_avatar2
-import lernhero.shared.generated.resources.ramka_test
-import lernhero.shared.generated.resources.ramka_test2
-import lernhero.shared.generated.resources.samurai_idle
-import lernhero.shared.generated.resources.sorcerer_avatar
 import lernhero.shared.generated.resources.sorcerer_avatar2
-import lernhero.shared.generated.resources.sprite3
 import lernhero.shared.generated.resources.swords_24px
-import lernhero.shared.generated.resources.test3
 import lernhero.shared.generated.resources.testattack
-import lernhero.shared.generated.resources.testgowno
 import lernhero.shared.generated.resources.unlock
 import lernhero.shared.generated.resources.usa
 import lernhero.shared.generated.resources.user
@@ -84,6 +78,7 @@ object Resources {
         val swords = Res.drawable.swords_24px
     }
     object Image {
+        val battlegroundFirst = Res.drawable.battlegroundTwo
         val ShoppingCart = Res.drawable.shopping_cart_image
         val Checkmark = Res.drawable.checkmark_image
         val logo = Res.drawable.logo_splash
@@ -105,24 +100,25 @@ object Resources {
     }
     object Sprite{
         val knight: SpriteAsset = SpriteAsset(
-            drawable = Res.drawable.sprite3,
-            frameWidth = 587,
-            frameHeight = 707,
-            totalFrames = 9,
-            framesPerRow = 3,
-            animationSpeed = 100,
+            drawable = Res.drawable.knight_sprite,
+            frameWidth = 1280,
+            frameHeight = 720,
+            totalFrames = 29,
+            framesPerRow = 6,
+            animationSpeed = 62,
             localWidth = 100.dp,
-            renderScale = 1f
+            renderScale = 1f,
+            playBackwards = true
         )
         val knightAtk: SpriteAsset = SpriteAsset(
-            drawable = Res.drawable.ATTACK3,
-            frameWidth = 587,
-            frameHeight = 707,
-            totalFrames = 1,
-            framesPerRow = 1,
-            animationSpeed = 100,
+            drawable = Res.drawable.knight_attack_sprite,
+            frameWidth = 1280,
+            frameHeight = 720,
+            totalFrames = 32,
+            framesPerRow = 6,
+            animationSpeed = 42,
             localWidth = 100.dp,
-            renderScale = 1f
+            renderScale = 1f,
         )
         val samuraiIdle: SpriteAsset = SpriteAsset(
             drawable = Res.drawable.samurai_idle,
@@ -165,6 +161,7 @@ data class SpriteAsset(
     val animationSpeed: Long,
     val localWidth: Dp,
     val renderScale: Float = 1f,
+    val playBackwards: Boolean = false,
 ){
     fun scaleWidthFactor(density: Density): Float {
         val frameWidthDp = with(density) { frameWidth.toDp() }

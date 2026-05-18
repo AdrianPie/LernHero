@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.lernhero.domain.data.PlayerRepository
 
 import com.lernhero.shared.Screen
@@ -21,7 +22,6 @@ import com.lernhero.shared.Constans
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import lernhero.composeapp.generated.resources.Res
 import lernhero.composeapp.generated.resources.compose_multiplatform

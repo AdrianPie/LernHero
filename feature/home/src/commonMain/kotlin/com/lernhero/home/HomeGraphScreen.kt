@@ -3,6 +3,7 @@ package com.lernhero.home
 import com.lernhero.game.FightScreen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -18,6 +19,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -43,23 +46,22 @@ fun HomeGraphScreen() {
 
     val selectedDestination by remember {
         derivedStateOf {
-            val route = currentRoute.value?.destination?.route.toString()
             when {
-                route.contains(BottomBarDestination.Home.route.toString()) -> BottomBarDestination.Home
-                route.contains(BottomBarDestination.Game.route.toString()) -> BottomBarDestination.Game
-                route.contains(BottomBarDestination.Shop.route.toString()) -> BottomBarDestination.Shop
+                currentRoute.value.isOnRoute<Screen.Home>() -> BottomBarDestination.Home
+                currentRoute.value.isOnRoute<Screen.GameScreen>() -> BottomBarDestination.Game
+                currentRoute.value.isOnRoute<Screen.Shop>() -> BottomBarDestination.Shop
                 else -> BottomBarDestination.Home
             }
         }
     }
     val showBars by remember {
         derivedStateOf {
-            val route = currentRoute.value?.destination?.route.toString()
-            !route.contains(Screen.FightScreen.toString())
+            !currentRoute.value.isOnRoute<Screen.FightScreen>()
         }
     }
     Scaffold(
         containerColor = Surface,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = if (showBars) {
             {
                 CenterAlignedTopAppBar(
@@ -83,7 +85,7 @@ fun HomeGraphScreen() {
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Surface,
                         scrolledContainerColor = Surface,
                         navigationIconContentColor = IconPrimary,
@@ -97,11 +99,19 @@ fun HomeGraphScreen() {
             { }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize()
-            .padding(
-                top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding()
-            )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .then(
+                    if (showBars) {
+                        Modifier.padding(
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding()
+                        )
+                    } else {
+                        Modifier
+                    }
+                )
         ) {
             NavHost(
                 modifier = Modifier.fillMaxSize(),
@@ -140,4 +150,10 @@ fun HomeGraphScreen() {
 
     }
 
+}
+
+private inline fun <reified T : Any> androidx.navigation.NavBackStackEntry?.isOnRoute(): Boolean {
+    return this?.destination
+        ?.hierarchy
+        ?.any { destination -> destination.hasRoute(T::class) } == true
 }

@@ -14,7 +14,9 @@ data class CharacterSprites(
     fun forState(state: CharacterState): SpriteAsset =
         when (state) {
             CharacterState.IDLE -> idle
+            CharacterState.MOVING_TO_ATK -> idle
             CharacterState.ATTACK -> attack
+            CharacterState.MOVING_BACK -> idle
             CharacterState.HIT -> hit
             CharacterState.DEAD -> dead
         }
